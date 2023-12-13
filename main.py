@@ -1,3 +1,4 @@
+import argparse
 import logging
 import random
 from functools import wraps
@@ -16,7 +17,7 @@ def log_func(logger):
         def wrapper(*args, **kwargs):
             try:
                 result = func(*args, **kwargs)
-                logger.info(f"Function {func.__name__} has been successfully decorated")
+                logger.info(f"Function {func.__name__} has been successfully used")
                 return result
             except Exception as e:
                 logger.error(f"Exception {e}")
@@ -30,6 +31,7 @@ def log_func(logger):
 @log_func(logger)
 def triangle(sideList):
     try:
+        EXISTS = "Треугольник существует"
         if sideList[0] > 0 and sideList[1] > 0 and sideList[2] > 0:
             for i in range(len(sideList)):
                 sideSum = 0
@@ -38,16 +40,19 @@ def triangle(sideList):
                         sideSum += sideList[j]
                 if sideList[i] >= sideSum: return print("Треугольник не существует")
             if len(set(sideList)) == 1:
-                return print("Треугольник существует" + "\n" + "Треугольник равносторонний")
+                return print(EXISTS + "\n" + "Треугольник равносторонний")
             elif len(set(sideList)) == 2:
-                return print("Треугольник существует" + "\n" + "Треугольник равнобедренный")
+                return print(EXISTS + "\n" + "Треугольник равнобедренный")
             elif len(set(sideList)) == 3:
-                return print("Треугольник существует" + "\n" + "Треугольник разносторонний")
-        else: raise ValueError("Neagtive length value has been taken")
+                return print(EXISTS + "\n" + "Треугольник разносторонний")
+        else:
+            raise ValueError("Negtive length value has been taken")
     except ValueError as e:
         logger.error(e)
 
 
 if __name__ == '__main__':
-    for i in range(10):
+    for i in range(5):
         triangle([random.randint(-10, 10), random.randint(-10, 10), random.randint(-10, 10)])
+
+
